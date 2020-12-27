@@ -1,11 +1,15 @@
 import { Query, Resolver, Mutation, Args } from '@nestjs/graphql';
-import { CatsService } from './cats.service';
 import { Cat } from './cats.schema';
 import { CreateCatDto } from './create-cat.dto';
+import { CatServiceInterface } from './cats.service.interface';
+import { Inject } from '@nestjs/common';
 
 @Resolver()
 export class CatsResolver {
-  constructor(private catsService: CatsService) {}
+  constructor(
+    @Inject('CatsServiceInterface')
+    private readonly catsService: CatServiceInterface,
+  ) {}
 
   @Query(() => [Cat])
   async allCats() {
